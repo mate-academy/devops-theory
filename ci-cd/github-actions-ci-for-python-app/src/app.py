@@ -10,12 +10,13 @@ start_period = 10
 app = Flask(__name__)
 
 # Access the environment variable
-appEnv = os.environ.get("APP_ENV", "Development")
-connectionString = os.environ.get("DB_CONNECTION", "")
+app_env = os.environ.get("APP_ENV", "Development")
+connection_string = os.environ.get("DB_CONNECTION", "")
 
 # Configure the MySQL database connection
-app.config["SQLALCHEMY_DATABASE_URI"] = connectionString
+app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 db = SQLAlchemy(app)
+
 
 # Define a Counter model
 class Counter(db.Model):
@@ -39,7 +40,7 @@ def hello():
     counter.value += 1
     db.session.commit()
     return f'''
-    Docker is Awesome! My ENV var is: {appEnv}<br>
+    Docker is Awesome! My ENV var is: {app_env}<br>
     Page reload count: {counter.value}<br>
 <pre>                   ##        .</pre>
 <pre>             ## ## ##       ==</pre>
@@ -78,7 +79,7 @@ def external_call():
     try:
         response = requests.get(external_url)
         return Response(
-            f"Extarnal call response: {response.text}", status=response.status_code
+            f"External call response: {response.text}", status=response.status_code
         )
     except Exception as e:
         return Response(f"Error calling external endpoint: {str(e)}", status=500)
