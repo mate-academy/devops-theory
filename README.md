@@ -1,1 +1,1 @@
-# devops-theory
+# DevOps Theory
